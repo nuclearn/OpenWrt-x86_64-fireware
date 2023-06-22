@@ -1,0 +1,30 @@
+
+config interface 'loopback'
+	option ifname 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+
+config interface 'lan'
+	option ifname 'eth0'
+	option proto 'static'
+	option ipaddr '192.168.31.1'
+	option netmask '255.255.255.0'
+	option delegate '0'
+
+config interface 'wan'
+	option ifname 'eth1'
+	option proto 'pppoe'
+	option username '02862023318'
+	option delegate '0'
+	option password '62023318'
+
+config interface 'IPTV'
+	option ifname 'eth1.3'
+	option proto 'dhcp'
+	option vendorid 'SCITV'
+	option metric '10'
+	option clientid '00383461396334383738346238'
+	option macaddr '84:a9:c4:87:84:b8'
+	option delegate '0'
+

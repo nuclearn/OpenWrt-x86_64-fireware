@@ -1,0 +1,20 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+#ifconfig eth1 promisc
+#ip rule add fwmark 1 lookup 100
+#ip route add local 0.0.0.0/0 dev lo table 100
+/usr/sbin/smartdns -c /root/dns/smartdns.conf > /dev/null 2>&1 &
+chinadns-ng -b 127.0.0.1 -l 5353 -c '127.0.0.1#2323' -t '23.247.138.41#2323' -4 chnroute -r > /dev/null 2>&1 &
+chinadns-ng -b 127.0.0.1 -l 5353 -c '127.0.0.1#2323' -t '23.247.138.41#2323' -4 chnroute -r > /dev/null 2>&1 &
+/usr/sbin/dnsmasq -C /etc/aaa/dnsmasq.conf > /dev/null 2>&1 &
+#ntpdate 192.168.31.172 > /dev/null 2>&1 &
+#ntpdate 120.25.115.20 > /dev/null 2>&1 &
+#ntpdate ntp1.aliyun.com > /dev/null 2>&1 &
+#hwclock -w
+#/root/brook/google.sh
+#/root/v2ray/google.sh
+#/root/gost_2.5_linux_arm/ali.sh
+#/root/shadowsocks/ali.sh
+cp /root/trojan/aper/v2ray.crt /etc/ssl/certs/
+/usr/bin/xray run -config /root/xray/aper.json > /dev/null 2>&1 &
+exit 0

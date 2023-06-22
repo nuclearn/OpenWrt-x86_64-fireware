@@ -1,0 +1,31 @@
+# This file is interpreted as shell script.
+# Put your custom iptables rules here, they will
+# be executed with each firewall (re-)start.
+
+# Internal uci firewall chains are flushed and recreated on reload, so
+# put custom rules into the root chains e.g. INPUT or FORWARD or into the
+# special user chains, e.g. input_wan_rule or postrouting_lan_rule.
+
+#iptables -I FORWARD 1 -m conntrack --ctstate RELATED,ESTABLISHED -j FLOWOFFLOAD
+
+# Setup the ipset
+
+ipset -N chnroute hash:net maxelem 65536
+
+for ip in $(cat '/etc/chinaip.txt'); do
+  ipset add chnroute $ip
+done
+
+iptables -t nat -N SHADOWSOCKS
+
+# Allow connection to chinese IPs
+iptables -t nat -A SHADOWSOCKS -p tcp -m set --match-set chnroute dst -j RETURN
+
+iptables -t nat -A SHADOWSOCKS -p tcp -j REDIRECT --to-ports 1080
+
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j SHADOWSOCKS
+
+iptables -t nat -A PREROUTING -p tcp --dport 443 -j SHADOWSOCKS
+
+#iptables -t nat -A PREROUTING -p tcp --dport 8096 -j SHADOWSOCKS
+
